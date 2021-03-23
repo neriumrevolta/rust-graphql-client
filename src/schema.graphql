@@ -1,0 +1,1912 @@
+directive @entity on OBJECT
+
+directive @derivedFrom(field: String) on FIELD_DEFINITION
+
+directive @subgraphId(id: String) on OBJECT
+
+type _Block_ {
+    """The hash of the block"""
+    hash: Bytes
+
+    """The block number"""
+    number: Int!
+}
+
+"""The type for the top-level _meta field"""
+type _Meta_ {
+    """
+    Information about a specific subgraph block. The hash of the block
+    will be null if the _meta field has a block constraint that asks for
+    a block number. It will be filled if the _meta field has no block constraint
+    and therefore asks for the latest  block
+
+    """
+    block: _Block_!
+
+    """The deployment ID"""
+    deployment: String!
+
+    """If `true`, the subgraph encountered indexing errors at some past block"""
+    hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+    """Data will be returned even if the subgraph has indexing errors"""
+    allow
+
+    """
+    If the subgraph has indexing errors, data will be omitted. The default.
+    """
+    deny
+}
+
+type Account {
+    id: ID!
+    address: Bytes!
+    nfts(skip: Int = 0, first: Int = 100, orderBy: NFT_orderBy, orderDirection: OrderDirection, where: NFT_filter): [NFT!]
+    mana: BigInt
+}
+
+input Account_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    address: Bytes
+    address_not: Bytes
+    address_in: [Bytes!]
+    address_not_in: [Bytes!]
+    address_contains: Bytes
+    address_not_contains: Bytes
+    mana: BigInt
+    mana_not: BigInt
+    mana_gt: BigInt
+    mana_lt: BigInt
+    mana_gte: BigInt
+    mana_lte: BigInt
+    mana_in: [BigInt!]
+    mana_not_in: [BigInt!]
+}
+
+enum Account_orderBy {
+    id
+    address
+    nfts
+    mana
+}
+
+type Bid {
+    id: ID!
+    category: Category!
+    nft: NFT
+    nftAddress: Bytes!
+    bidder: Bytes
+    seller: Bytes
+    price: BigInt!
+    fingerprint: Bytes
+    status: OrderStatus!
+    blockchainId: String!
+    blockNumber: BigInt!
+    expiresAt: BigInt!
+    createdAt: BigInt!
+    updatedAt: BigInt!
+}
+
+input Bid_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    category: Category
+    category_not: Category
+    nft: String
+    nft_not: String
+    nft_gt: String
+    nft_lt: String
+    nft_gte: String
+    nft_lte: String
+    nft_in: [String!]
+    nft_not_in: [String!]
+    nft_contains: String
+    nft_not_contains: String
+    nft_starts_with: String
+    nft_not_starts_with: String
+    nft_ends_with: String
+    nft_not_ends_with: String
+    nftAddress: Bytes
+    nftAddress_not: Bytes
+    nftAddress_in: [Bytes!]
+    nftAddress_not_in: [Bytes!]
+    nftAddress_contains: Bytes
+    nftAddress_not_contains: Bytes
+    bidder: Bytes
+    bidder_not: Bytes
+    bidder_in: [Bytes!]
+    bidder_not_in: [Bytes!]
+    bidder_contains: Bytes
+    bidder_not_contains: Bytes
+    seller: Bytes
+    seller_not: Bytes
+    seller_in: [Bytes!]
+    seller_not_in: [Bytes!]
+    seller_contains: Bytes
+    seller_not_contains: Bytes
+    price: BigInt
+    price_not: BigInt
+    price_gt: BigInt
+    price_lt: BigInt
+    price_gte: BigInt
+    price_lte: BigInt
+    price_in: [BigInt!]
+    price_not_in: [BigInt!]
+    fingerprint: Bytes
+    fingerprint_not: Bytes
+    fingerprint_in: [Bytes!]
+    fingerprint_not_in: [Bytes!]
+    fingerprint_contains: Bytes
+    fingerprint_not_contains: Bytes
+    status: OrderStatus
+    status_not: OrderStatus
+    blockchainId: String
+    blockchainId_not: String
+    blockchainId_gt: String
+    blockchainId_lt: String
+    blockchainId_gte: String
+    blockchainId_lte: String
+    blockchainId_in: [String!]
+    blockchainId_not_in: [String!]
+    blockchainId_contains: String
+    blockchainId_not_contains: String
+    blockchainId_starts_with: String
+    blockchainId_not_starts_with: String
+    blockchainId_ends_with: String
+    blockchainId_not_ends_with: String
+    blockNumber: BigInt
+    blockNumber_not: BigInt
+    blockNumber_gt: BigInt
+    blockNumber_lt: BigInt
+    blockNumber_gte: BigInt
+    blockNumber_lte: BigInt
+    blockNumber_in: [BigInt!]
+    blockNumber_not_in: [BigInt!]
+    expiresAt: BigInt
+    expiresAt_not: BigInt
+    expiresAt_gt: BigInt
+    expiresAt_lt: BigInt
+    expiresAt_gte: BigInt
+    expiresAt_lte: BigInt
+    expiresAt_in: [BigInt!]
+    expiresAt_not_in: [BigInt!]
+    createdAt: BigInt
+    createdAt_not: BigInt
+    createdAt_gt: BigInt
+    createdAt_lt: BigInt
+    createdAt_gte: BigInt
+    createdAt_lte: BigInt
+    createdAt_in: [BigInt!]
+    createdAt_not_in: [BigInt!]
+    updatedAt: BigInt
+    updatedAt_not: BigInt
+    updatedAt_gt: BigInt
+    updatedAt_lt: BigInt
+    updatedAt_gte: BigInt
+    updatedAt_lte: BigInt
+    updatedAt_in: [BigInt!]
+    updatedAt_not_in: [BigInt!]
+}
+
+enum Bid_orderBy {
+    id
+    category
+    nft
+    nftAddress
+    bidder
+    seller
+    price
+    fingerprint
+    status
+    blockchainId
+    blockNumber
+    expiresAt
+    createdAt
+    updatedAt
+}
+
+scalar BigDecimal
+
+scalar BigInt
+
+input Block_height {
+    hash: Bytes
+    number: Int
+}
+
+scalar Bytes
+
+enum Category {
+    parcel
+    estate
+    wearable
+    ens
+}
+
+type Count {
+    id: ID!
+    orderTotal: Int!
+    orderParcel: Int!
+    orderEstate: Int!
+    orderWearable: Int!
+    orderENS: Int!
+    parcelTotal: Int!
+    estateTotal: Int!
+    wearableTotal: Int!
+    ensTotal: Int!
+    started: Int!
+}
+
+input Count_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    orderTotal: Int
+    orderTotal_not: Int
+    orderTotal_gt: Int
+    orderTotal_lt: Int
+    orderTotal_gte: Int
+    orderTotal_lte: Int
+    orderTotal_in: [Int!]
+    orderTotal_not_in: [Int!]
+    orderParcel: Int
+    orderParcel_not: Int
+    orderParcel_gt: Int
+    orderParcel_lt: Int
+    orderParcel_gte: Int
+    orderParcel_lte: Int
+    orderParcel_in: [Int!]
+    orderParcel_not_in: [Int!]
+    orderEstate: Int
+    orderEstate_not: Int
+    orderEstate_gt: Int
+    orderEstate_lt: Int
+    orderEstate_gte: Int
+    orderEstate_lte: Int
+    orderEstate_in: [Int!]
+    orderEstate_not_in: [Int!]
+    orderWearable: Int
+    orderWearable_not: Int
+    orderWearable_gt: Int
+    orderWearable_lt: Int
+    orderWearable_gte: Int
+    orderWearable_lte: Int
+    orderWearable_in: [Int!]
+    orderWearable_not_in: [Int!]
+    orderENS: Int
+    orderENS_not: Int
+    orderENS_gt: Int
+    orderENS_lt: Int
+    orderENS_gte: Int
+    orderENS_lte: Int
+    orderENS_in: [Int!]
+    orderENS_not_in: [Int!]
+    parcelTotal: Int
+    parcelTotal_not: Int
+    parcelTotal_gt: Int
+    parcelTotal_lt: Int
+    parcelTotal_gte: Int
+    parcelTotal_lte: Int
+    parcelTotal_in: [Int!]
+    parcelTotal_not_in: [Int!]
+    estateTotal: Int
+    estateTotal_not: Int
+    estateTotal_gt: Int
+    estateTotal_lt: Int
+    estateTotal_gte: Int
+    estateTotal_lte: Int
+    estateTotal_in: [Int!]
+    estateTotal_not_in: [Int!]
+    wearableTotal: Int
+    wearableTotal_not: Int
+    wearableTotal_gt: Int
+    wearableTotal_lt: Int
+    wearableTotal_gte: Int
+    wearableTotal_lte: Int
+    wearableTotal_in: [Int!]
+    wearableTotal_not_in: [Int!]
+    ensTotal: Int
+    ensTotal_not: Int
+    ensTotal_gt: Int
+    ensTotal_lt: Int
+    ensTotal_gte: Int
+    ensTotal_lte: Int
+    ensTotal_in: [Int!]
+    ensTotal_not_in: [Int!]
+    started: Int
+    started_not: Int
+    started_gt: Int
+    started_lt: Int
+    started_gte: Int
+    started_lte: Int
+    started_in: [Int!]
+    started_not_in: [Int!]
+}
+
+enum Count_orderBy {
+    id
+    orderTotal
+    orderParcel
+    orderEstate
+    orderWearable
+    orderENS
+    parcelTotal
+    estateTotal
+    wearableTotal
+    ensTotal
+    started
+}
+
+type Data {
+    id: ID!
+    parcel: Parcel
+    estate: Estate
+    version: String!
+    name: String
+    description: String
+    ipns: String
+}
+
+input Data_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    parcel: String
+    parcel_not: String
+    parcel_gt: String
+    parcel_lt: String
+    parcel_gte: String
+    parcel_lte: String
+    parcel_in: [String!]
+    parcel_not_in: [String!]
+    parcel_contains: String
+    parcel_not_contains: String
+    parcel_starts_with: String
+    parcel_not_starts_with: String
+    parcel_ends_with: String
+    parcel_not_ends_with: String
+    estate: String
+    estate_not: String
+    estate_gt: String
+    estate_lt: String
+    estate_gte: String
+    estate_lte: String
+    estate_in: [String!]
+    estate_not_in: [String!]
+    estate_contains: String
+    estate_not_contains: String
+    estate_starts_with: String
+    estate_not_starts_with: String
+    estate_ends_with: String
+    estate_not_ends_with: String
+    version: String
+    version_not: String
+    version_gt: String
+    version_lt: String
+    version_gte: String
+    version_lte: String
+    version_in: [String!]
+    version_not_in: [String!]
+    version_contains: String
+    version_not_contains: String
+    version_starts_with: String
+    version_not_starts_with: String
+    version_ends_with: String
+    version_not_ends_with: String
+    name: String
+    name_not: String
+    name_gt: String
+    name_lt: String
+    name_gte: String
+    name_lte: String
+    name_in: [String!]
+    name_not_in: [String!]
+    name_contains: String
+    name_not_contains: String
+    name_starts_with: String
+    name_not_starts_with: String
+    name_ends_with: String
+    name_not_ends_with: String
+    description: String
+    description_not: String
+    description_gt: String
+    description_lt: String
+    description_gte: String
+    description_lte: String
+    description_in: [String!]
+    description_not_in: [String!]
+    description_contains: String
+    description_not_contains: String
+    description_starts_with: String
+    description_not_starts_with: String
+    description_ends_with: String
+    description_not_ends_with: String
+    ipns: String
+    ipns_not: String
+    ipns_gt: String
+    ipns_lt: String
+    ipns_gte: String
+    ipns_lte: String
+    ipns_in: [String!]
+    ipns_not_in: [String!]
+    ipns_contains: String
+    ipns_not_contains: String
+    ipns_starts_with: String
+    ipns_not_starts_with: String
+    ipns_ends_with: String
+    ipns_not_ends_with: String
+}
+
+enum Data_orderBy {
+    id
+    parcel
+    estate
+    version
+    name
+    description
+    ipns
+}
+
+type ENS {
+    id: ID!
+    tokenId: BigInt!
+    owner: Account!
+    caller: Bytes
+    beneficiary: Bytes
+    labelHash: Bytes
+    subdomain: String
+    createdAt: BigInt
+    nft: NFT
+}
+
+input ENS_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    tokenId: BigInt
+    tokenId_not: BigInt
+    tokenId_gt: BigInt
+    tokenId_lt: BigInt
+    tokenId_gte: BigInt
+    tokenId_lte: BigInt
+    tokenId_in: [BigInt!]
+    tokenId_not_in: [BigInt!]
+    owner: String
+    owner_not: String
+    owner_gt: String
+    owner_lt: String
+    owner_gte: String
+    owner_lte: String
+    owner_in: [String!]
+    owner_not_in: [String!]
+    owner_contains: String
+    owner_not_contains: String
+    owner_starts_with: String
+    owner_not_starts_with: String
+    owner_ends_with: String
+    owner_not_ends_with: String
+    caller: Bytes
+    caller_not: Bytes
+    caller_in: [Bytes!]
+    caller_not_in: [Bytes!]
+    caller_contains: Bytes
+    caller_not_contains: Bytes
+    beneficiary: Bytes
+    beneficiary_not: Bytes
+    beneficiary_in: [Bytes!]
+    beneficiary_not_in: [Bytes!]
+    beneficiary_contains: Bytes
+    beneficiary_not_contains: Bytes
+    labelHash: Bytes
+    labelHash_not: Bytes
+    labelHash_in: [Bytes!]
+    labelHash_not_in: [Bytes!]
+    labelHash_contains: Bytes
+    labelHash_not_contains: Bytes
+    subdomain: String
+    subdomain_not: String
+    subdomain_gt: String
+    subdomain_lt: String
+    subdomain_gte: String
+    subdomain_lte: String
+    subdomain_in: [String!]
+    subdomain_not_in: [String!]
+    subdomain_contains: String
+    subdomain_not_contains: String
+    subdomain_starts_with: String
+    subdomain_not_starts_with: String
+    subdomain_ends_with: String
+    subdomain_not_ends_with: String
+    createdAt: BigInt
+    createdAt_not: BigInt
+    createdAt_gt: BigInt
+    createdAt_lt: BigInt
+    createdAt_gte: BigInt
+    createdAt_lte: BigInt
+    createdAt_in: [BigInt!]
+    createdAt_not_in: [BigInt!]
+}
+
+enum ENS_orderBy {
+    id
+    tokenId
+    owner
+    caller
+    beneficiary
+    labelHash
+    subdomain
+    createdAt
+    nft
+}
+
+type Estate {
+    id: ID!
+    tokenId: BigInt!
+    owner: Account!
+    parcels(skip: Int = 0, first: Int = 100, orderBy: Parcel_orderBy, orderDirection: OrderDirection, where: Parcel_filter): [Parcel!]
+    size: Int
+    data: Data
+    rawData: String
+    nft: NFT
+}
+
+input Estate_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    tokenId: BigInt
+    tokenId_not: BigInt
+    tokenId_gt: BigInt
+    tokenId_lt: BigInt
+    tokenId_gte: BigInt
+    tokenId_lte: BigInt
+    tokenId_in: [BigInt!]
+    tokenId_not_in: [BigInt!]
+    owner: String
+    owner_not: String
+    owner_gt: String
+    owner_lt: String
+    owner_gte: String
+    owner_lte: String
+    owner_in: [String!]
+    owner_not_in: [String!]
+    owner_contains: String
+    owner_not_contains: String
+    owner_starts_with: String
+    owner_not_starts_with: String
+    owner_ends_with: String
+    owner_not_ends_with: String
+    parcels: [String!]
+    parcels_not: [String!]
+    parcels_contains: [String!]
+    parcels_not_contains: [String!]
+    size: Int
+    size_not: Int
+    size_gt: Int
+    size_lt: Int
+    size_gte: Int
+    size_lte: Int
+    size_in: [Int!]
+    size_not_in: [Int!]
+    data: String
+    data_not: String
+    data_gt: String
+    data_lt: String
+    data_gte: String
+    data_lte: String
+    data_in: [String!]
+    data_not_in: [String!]
+    data_contains: String
+    data_not_contains: String
+    data_starts_with: String
+    data_not_starts_with: String
+    data_ends_with: String
+    data_not_ends_with: String
+    rawData: String
+    rawData_not: String
+    rawData_gt: String
+    rawData_lt: String
+    rawData_gte: String
+    rawData_lte: String
+    rawData_in: [String!]
+    rawData_not_in: [String!]
+    rawData_contains: String
+    rawData_not_contains: String
+    rawData_starts_with: String
+    rawData_not_starts_with: String
+    rawData_ends_with: String
+    rawData_not_ends_with: String
+}
+
+enum Estate_orderBy {
+    id
+    tokenId
+    owner
+    parcels
+    size
+    data
+    rawData
+    nft
+}
+
+type NFT {
+    id: ID!
+    tokenId: BigInt!
+    contractAddress: Bytes!
+    category: Category!
+    owner: Account!
+    tokenURI: String
+    orders(skip: Int = 0, first: Int = 100, orderBy: Order_orderBy, orderDirection: OrderDirection, where: Order_filter): [Order!]
+    bids(skip: Int = 0, first: Int = 100, orderBy: Bid_orderBy, orderDirection: OrderDirection, where: Bid_filter): [Bid!]
+    activeOrder: Order
+    name: String
+    image: String
+    parcel: Parcel
+    estate: Estate
+    wearable: Wearable
+    ens: ENS
+    createdAt: BigInt!
+    updatedAt: BigInt!
+    searchOrderStatus: OrderStatus
+    searchOrderPrice: BigInt
+    searchOrderExpiresAt: BigInt
+    searchOrderCreatedAt: BigInt
+    searchIsLand: Boolean
+    searchText: String
+    searchParcelIsInBounds: Boolean
+    searchParcelX: BigInt
+    searchParcelY: BigInt
+    searchParcelEstateId: String
+    searchEstateSize: Int
+    searchIsWearableHead: Boolean
+    searchIsWearableAccessory: Boolean
+    searchWearableRarity: String
+    searchWearableCategory: WearableCategory
+    searchWearableBodyShapes: [WearableBodyShape!]
+}
+
+input NFT_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    tokenId: BigInt
+    tokenId_not: BigInt
+    tokenId_gt: BigInt
+    tokenId_lt: BigInt
+    tokenId_gte: BigInt
+    tokenId_lte: BigInt
+    tokenId_in: [BigInt!]
+    tokenId_not_in: [BigInt!]
+    contractAddress: Bytes
+    contractAddress_not: Bytes
+    contractAddress_in: [Bytes!]
+    contractAddress_not_in: [Bytes!]
+    contractAddress_contains: Bytes
+    contractAddress_not_contains: Bytes
+    category: Category
+    category_not: Category
+    owner: String
+    owner_not: String
+    owner_gt: String
+    owner_lt: String
+    owner_gte: String
+    owner_lte: String
+    owner_in: [String!]
+    owner_not_in: [String!]
+    owner_contains: String
+    owner_not_contains: String
+    owner_starts_with: String
+    owner_not_starts_with: String
+    owner_ends_with: String
+    owner_not_ends_with: String
+    tokenURI: String
+    tokenURI_not: String
+    tokenURI_gt: String
+    tokenURI_lt: String
+    tokenURI_gte: String
+    tokenURI_lte: String
+    tokenURI_in: [String!]
+    tokenURI_not_in: [String!]
+    tokenURI_contains: String
+    tokenURI_not_contains: String
+    tokenURI_starts_with: String
+    tokenURI_not_starts_with: String
+    tokenURI_ends_with: String
+    tokenURI_not_ends_with: String
+    activeOrder: String
+    activeOrder_not: String
+    activeOrder_gt: String
+    activeOrder_lt: String
+    activeOrder_gte: String
+    activeOrder_lte: String
+    activeOrder_in: [String!]
+    activeOrder_not_in: [String!]
+    activeOrder_contains: String
+    activeOrder_not_contains: String
+    activeOrder_starts_with: String
+    activeOrder_not_starts_with: String
+    activeOrder_ends_with: String
+    activeOrder_not_ends_with: String
+    name: String
+    name_not: String
+    name_gt: String
+    name_lt: String
+    name_gte: String
+    name_lte: String
+    name_in: [String!]
+    name_not_in: [String!]
+    name_contains: String
+    name_not_contains: String
+    name_starts_with: String
+    name_not_starts_with: String
+    name_ends_with: String
+    name_not_ends_with: String
+    image: String
+    image_not: String
+    image_gt: String
+    image_lt: String
+    image_gte: String
+    image_lte: String
+    image_in: [String!]
+    image_not_in: [String!]
+    image_contains: String
+    image_not_contains: String
+    image_starts_with: String
+    image_not_starts_with: String
+    image_ends_with: String
+    image_not_ends_with: String
+    parcel: String
+    parcel_not: String
+    parcel_gt: String
+    parcel_lt: String
+    parcel_gte: String
+    parcel_lte: String
+    parcel_in: [String!]
+    parcel_not_in: [String!]
+    parcel_contains: String
+    parcel_not_contains: String
+    parcel_starts_with: String
+    parcel_not_starts_with: String
+    parcel_ends_with: String
+    parcel_not_ends_with: String
+    estate: String
+    estate_not: String
+    estate_gt: String
+    estate_lt: String
+    estate_gte: String
+    estate_lte: String
+    estate_in: [String!]
+    estate_not_in: [String!]
+    estate_contains: String
+    estate_not_contains: String
+    estate_starts_with: String
+    estate_not_starts_with: String
+    estate_ends_with: String
+    estate_not_ends_with: String
+    wearable: String
+    wearable_not: String
+    wearable_gt: String
+    wearable_lt: String
+    wearable_gte: String
+    wearable_lte: String
+    wearable_in: [String!]
+    wearable_not_in: [String!]
+    wearable_contains: String
+    wearable_not_contains: String
+    wearable_starts_with: String
+    wearable_not_starts_with: String
+    wearable_ends_with: String
+    wearable_not_ends_with: String
+    ens: String
+    ens_not: String
+    ens_gt: String
+    ens_lt: String
+    ens_gte: String
+    ens_lte: String
+    ens_in: [String!]
+    ens_not_in: [String!]
+    ens_contains: String
+    ens_not_contains: String
+    ens_starts_with: String
+    ens_not_starts_with: String
+    ens_ends_with: String
+    ens_not_ends_with: String
+    createdAt: BigInt
+    createdAt_not: BigInt
+    createdAt_gt: BigInt
+    createdAt_lt: BigInt
+    createdAt_gte: BigInt
+    createdAt_lte: BigInt
+    createdAt_in: [BigInt!]
+    createdAt_not_in: [BigInt!]
+    updatedAt: BigInt
+    updatedAt_not: BigInt
+    updatedAt_gt: BigInt
+    updatedAt_lt: BigInt
+    updatedAt_gte: BigInt
+    updatedAt_lte: BigInt
+    updatedAt_in: [BigInt!]
+    updatedAt_not_in: [BigInt!]
+    searchOrderStatus: OrderStatus
+    searchOrderStatus_not: OrderStatus
+    searchOrderPrice: BigInt
+    searchOrderPrice_not: BigInt
+    searchOrderPrice_gt: BigInt
+    searchOrderPrice_lt: BigInt
+    searchOrderPrice_gte: BigInt
+    searchOrderPrice_lte: BigInt
+    searchOrderPrice_in: [BigInt!]
+    searchOrderPrice_not_in: [BigInt!]
+    searchOrderExpiresAt: BigInt
+    searchOrderExpiresAt_not: BigInt
+    searchOrderExpiresAt_gt: BigInt
+    searchOrderExpiresAt_lt: BigInt
+    searchOrderExpiresAt_gte: BigInt
+    searchOrderExpiresAt_lte: BigInt
+    searchOrderExpiresAt_in: [BigInt!]
+    searchOrderExpiresAt_not_in: [BigInt!]
+    searchOrderCreatedAt: BigInt
+    searchOrderCreatedAt_not: BigInt
+    searchOrderCreatedAt_gt: BigInt
+    searchOrderCreatedAt_lt: BigInt
+    searchOrderCreatedAt_gte: BigInt
+    searchOrderCreatedAt_lte: BigInt
+    searchOrderCreatedAt_in: [BigInt!]
+    searchOrderCreatedAt_not_in: [BigInt!]
+    searchIsLand: Boolean
+    searchIsLand_not: Boolean
+    searchIsLand_in: [Boolean!]
+    searchIsLand_not_in: [Boolean!]
+    searchText: String
+    searchText_not: String
+    searchText_gt: String
+    searchText_lt: String
+    searchText_gte: String
+    searchText_lte: String
+    searchText_in: [String!]
+    searchText_not_in: [String!]
+    searchText_contains: String
+    searchText_not_contains: String
+    searchText_starts_with: String
+    searchText_not_starts_with: String
+    searchText_ends_with: String
+    searchText_not_ends_with: String
+    searchParcelIsInBounds: Boolean
+    searchParcelIsInBounds_not: Boolean
+    searchParcelIsInBounds_in: [Boolean!]
+    searchParcelIsInBounds_not_in: [Boolean!]
+    searchParcelX: BigInt
+    searchParcelX_not: BigInt
+    searchParcelX_gt: BigInt
+    searchParcelX_lt: BigInt
+    searchParcelX_gte: BigInt
+    searchParcelX_lte: BigInt
+    searchParcelX_in: [BigInt!]
+    searchParcelX_not_in: [BigInt!]
+    searchParcelY: BigInt
+    searchParcelY_not: BigInt
+    searchParcelY_gt: BigInt
+    searchParcelY_lt: BigInt
+    searchParcelY_gte: BigInt
+    searchParcelY_lte: BigInt
+    searchParcelY_in: [BigInt!]
+    searchParcelY_not_in: [BigInt!]
+    searchParcelEstateId: String
+    searchParcelEstateId_not: String
+    searchParcelEstateId_gt: String
+    searchParcelEstateId_lt: String
+    searchParcelEstateId_gte: String
+    searchParcelEstateId_lte: String
+    searchParcelEstateId_in: [String!]
+    searchParcelEstateId_not_in: [String!]
+    searchParcelEstateId_contains: String
+    searchParcelEstateId_not_contains: String
+    searchParcelEstateId_starts_with: String
+    searchParcelEstateId_not_starts_with: String
+    searchParcelEstateId_ends_with: String
+    searchParcelEstateId_not_ends_with: String
+    searchEstateSize: Int
+    searchEstateSize_not: Int
+    searchEstateSize_gt: Int
+    searchEstateSize_lt: Int
+    searchEstateSize_gte: Int
+    searchEstateSize_lte: Int
+    searchEstateSize_in: [Int!]
+    searchEstateSize_not_in: [Int!]
+    searchIsWearableHead: Boolean
+    searchIsWearableHead_not: Boolean
+    searchIsWearableHead_in: [Boolean!]
+    searchIsWearableHead_not_in: [Boolean!]
+    searchIsWearableAccessory: Boolean
+    searchIsWearableAccessory_not: Boolean
+    searchIsWearableAccessory_in: [Boolean!]
+    searchIsWearableAccessory_not_in: [Boolean!]
+    searchWearableRarity: String
+    searchWearableRarity_not: String
+    searchWearableRarity_gt: String
+    searchWearableRarity_lt: String
+    searchWearableRarity_gte: String
+    searchWearableRarity_lte: String
+    searchWearableRarity_in: [String!]
+    searchWearableRarity_not_in: [String!]
+    searchWearableRarity_contains: String
+    searchWearableRarity_not_contains: String
+    searchWearableRarity_starts_with: String
+    searchWearableRarity_not_starts_with: String
+    searchWearableRarity_ends_with: String
+    searchWearableRarity_not_ends_with: String
+    searchWearableCategory: WearableCategory
+    searchWearableCategory_not: WearableCategory
+    searchWearableBodyShapes: [WearableBodyShape!]
+    searchWearableBodyShapes_not: [WearableBodyShape!]
+    searchWearableBodyShapes_contains: [WearableBodyShape!]
+    searchWearableBodyShapes_not_contains: [WearableBodyShape!]
+}
+
+enum NFT_orderBy {
+    id
+    tokenId
+    contractAddress
+    category
+    owner
+    tokenURI
+    orders
+    bids
+    activeOrder
+    name
+    image
+    parcel
+    estate
+    wearable
+    ens
+    createdAt
+    updatedAt
+    searchOrderStatus
+    searchOrderPrice
+    searchOrderExpiresAt
+    searchOrderCreatedAt
+    searchIsLand
+    searchText
+    searchParcelIsInBounds
+    searchParcelX
+    searchParcelY
+    searchParcelEstateId
+    searchEstateSize
+    searchIsWearableHead
+    searchIsWearableAccessory
+    searchWearableRarity
+    searchWearableCategory
+    searchWearableBodyShapes
+}
+
+type Order {
+    id: ID!
+    category: Category!
+    nft: NFT
+    nftAddress: Bytes!
+    txHash: Bytes!
+    owner: Bytes!
+    buyer: Bytes
+    price: BigInt!
+    status: OrderStatus!
+    blockNumber: BigInt!
+    expiresAt: BigInt!
+    createdAt: BigInt!
+    updatedAt: BigInt!
+}
+
+input Order_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    category: Category
+    category_not: Category
+    nft: String
+    nft_not: String
+    nft_gt: String
+    nft_lt: String
+    nft_gte: String
+    nft_lte: String
+    nft_in: [String!]
+    nft_not_in: [String!]
+    nft_contains: String
+    nft_not_contains: String
+    nft_starts_with: String
+    nft_not_starts_with: String
+    nft_ends_with: String
+    nft_not_ends_with: String
+    nftAddress: Bytes
+    nftAddress_not: Bytes
+    nftAddress_in: [Bytes!]
+    nftAddress_not_in: [Bytes!]
+    nftAddress_contains: Bytes
+    nftAddress_not_contains: Bytes
+    txHash: Bytes
+    txHash_not: Bytes
+    txHash_in: [Bytes!]
+    txHash_not_in: [Bytes!]
+    txHash_contains: Bytes
+    txHash_not_contains: Bytes
+    owner: Bytes
+    owner_not: Bytes
+    owner_in: [Bytes!]
+    owner_not_in: [Bytes!]
+    owner_contains: Bytes
+    owner_not_contains: Bytes
+    buyer: Bytes
+    buyer_not: Bytes
+    buyer_in: [Bytes!]
+    buyer_not_in: [Bytes!]
+    buyer_contains: Bytes
+    buyer_not_contains: Bytes
+    price: BigInt
+    price_not: BigInt
+    price_gt: BigInt
+    price_lt: BigInt
+    price_gte: BigInt
+    price_lte: BigInt
+    price_in: [BigInt!]
+    price_not_in: [BigInt!]
+    status: OrderStatus
+    status_not: OrderStatus
+    blockNumber: BigInt
+    blockNumber_not: BigInt
+    blockNumber_gt: BigInt
+    blockNumber_lt: BigInt
+    blockNumber_gte: BigInt
+    blockNumber_lte: BigInt
+    blockNumber_in: [BigInt!]
+    blockNumber_not_in: [BigInt!]
+    expiresAt: BigInt
+    expiresAt_not: BigInt
+    expiresAt_gt: BigInt
+    expiresAt_lt: BigInt
+    expiresAt_gte: BigInt
+    expiresAt_lte: BigInt
+    expiresAt_in: [BigInt!]
+    expiresAt_not_in: [BigInt!]
+    createdAt: BigInt
+    createdAt_not: BigInt
+    createdAt_gt: BigInt
+    createdAt_lt: BigInt
+    createdAt_gte: BigInt
+    createdAt_lte: BigInt
+    createdAt_in: [BigInt!]
+    createdAt_not_in: [BigInt!]
+    updatedAt: BigInt
+    updatedAt_not: BigInt
+    updatedAt_gt: BigInt
+    updatedAt_lt: BigInt
+    updatedAt_gte: BigInt
+    updatedAt_lte: BigInt
+    updatedAt_in: [BigInt!]
+    updatedAt_not_in: [BigInt!]
+}
+
+enum Order_orderBy {
+    id
+    category
+    nft
+    nftAddress
+    txHash
+    owner
+    buyer
+    price
+    status
+    blockNumber
+    expiresAt
+    createdAt
+    updatedAt
+}
+
+enum OrderDirection {
+    asc
+    desc
+}
+
+enum OrderStatus {
+    open
+    sold
+    cancelled
+}
+
+type Parcel {
+    id: ID!
+    tokenId: BigInt!
+    owner: Account!
+    x: BigInt!
+    y: BigInt!
+    estate: Estate
+    data: Data
+    rawData: String
+    nft: NFT
+}
+
+input Parcel_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    tokenId: BigInt
+    tokenId_not: BigInt
+    tokenId_gt: BigInt
+    tokenId_lt: BigInt
+    tokenId_gte: BigInt
+    tokenId_lte: BigInt
+    tokenId_in: [BigInt!]
+    tokenId_not_in: [BigInt!]
+    owner: String
+    owner_not: String
+    owner_gt: String
+    owner_lt: String
+    owner_gte: String
+    owner_lte: String
+    owner_in: [String!]
+    owner_not_in: [String!]
+    owner_contains: String
+    owner_not_contains: String
+    owner_starts_with: String
+    owner_not_starts_with: String
+    owner_ends_with: String
+    owner_not_ends_with: String
+    x: BigInt
+    x_not: BigInt
+    x_gt: BigInt
+    x_lt: BigInt
+    x_gte: BigInt
+    x_lte: BigInt
+    x_in: [BigInt!]
+    x_not_in: [BigInt!]
+    y: BigInt
+    y_not: BigInt
+    y_gt: BigInt
+    y_lt: BigInt
+    y_gte: BigInt
+    y_lte: BigInt
+    y_in: [BigInt!]
+    y_not_in: [BigInt!]
+    estate: String
+    estate_not: String
+    estate_gt: String
+    estate_lt: String
+    estate_gte: String
+    estate_lte: String
+    estate_in: [String!]
+    estate_not_in: [String!]
+    estate_contains: String
+    estate_not_contains: String
+    estate_starts_with: String
+    estate_not_starts_with: String
+    estate_ends_with: String
+    estate_not_ends_with: String
+    data: String
+    data_not: String
+    data_gt: String
+    data_lt: String
+    data_gte: String
+    data_lte: String
+    data_in: [String!]
+    data_not_in: [String!]
+    data_contains: String
+    data_not_contains: String
+    data_starts_with: String
+    data_not_starts_with: String
+    data_ends_with: String
+    data_not_ends_with: String
+    rawData: String
+    rawData_not: String
+    rawData_gt: String
+    rawData_lt: String
+    rawData_gte: String
+    rawData_lte: String
+    rawData_in: [String!]
+    rawData_not_in: [String!]
+    rawData_contains: String
+    rawData_not_contains: String
+    rawData_starts_with: String
+    rawData_not_starts_with: String
+    rawData_ends_with: String
+    rawData_not_ends_with: String
+}
+
+enum Parcel_orderBy {
+    id
+    tokenId
+    owner
+    x
+    y
+    estate
+    data
+    rawData
+    nft
+}
+
+type Query {
+    count(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Count
+    counts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Count_orderBy
+        orderDirection: OrderDirection
+        where: Count_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Count!]!
+    order(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Order
+    orders(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Order_orderBy
+        orderDirection: OrderDirection
+        where: Order_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Order!]!
+    bid(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Bid
+    bids(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Bid_orderBy
+        orderDirection: OrderDirection
+        where: Bid_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Bid!]!
+    parcel(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Parcel
+    parcels(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Parcel_orderBy
+        orderDirection: OrderDirection
+        where: Parcel_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Parcel!]!
+    estate(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Estate
+    estates(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Estate_orderBy
+        orderDirection: OrderDirection
+        where: Estate_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Estate!]!
+    data(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Data
+    datas(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Data_orderBy
+        orderDirection: OrderDirection
+        where: Data_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Data!]!
+    wearable(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Wearable
+    wearables(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Wearable_orderBy
+        orderDirection: OrderDirection
+        where: Wearable_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Wearable!]!
+    ens(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): ENS
+    enss(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: ENS_orderBy
+        orderDirection: OrderDirection
+        where: ENS_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [ENS!]!
+    nft(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): NFT
+    nfts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: NFT_orderBy
+        orderDirection: OrderDirection
+        where: NFT_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [NFT!]!
+    account(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Account
+    accounts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Account_orderBy
+        orderDirection: OrderDirection
+        where: Account_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Account!]!
+
+    """Access to subgraph metadata"""
+    _meta(block: Block_height): _Meta_
+}
+
+type Subscription {
+    count(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Count
+    counts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Count_orderBy
+        orderDirection: OrderDirection
+        where: Count_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Count!]!
+    order(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Order
+    orders(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Order_orderBy
+        orderDirection: OrderDirection
+        where: Order_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Order!]!
+    bid(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Bid
+    bids(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Bid_orderBy
+        orderDirection: OrderDirection
+        where: Bid_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Bid!]!
+    parcel(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Parcel
+    parcels(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Parcel_orderBy
+        orderDirection: OrderDirection
+        where: Parcel_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Parcel!]!
+    estate(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Estate
+    estates(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Estate_orderBy
+        orderDirection: OrderDirection
+        where: Estate_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Estate!]!
+    data(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Data
+    datas(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Data_orderBy
+        orderDirection: OrderDirection
+        where: Data_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Data!]!
+    wearable(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Wearable
+    wearables(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Wearable_orderBy
+        orderDirection: OrderDirection
+        where: Wearable_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Wearable!]!
+    ens(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): ENS
+    enss(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: ENS_orderBy
+        orderDirection: OrderDirection
+        where: ENS_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [ENS!]!
+    nft(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): NFT
+    nfts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: NFT_orderBy
+        orderDirection: OrderDirection
+        where: NFT_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [NFT!]!
+    account(
+        id: ID!
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): Account
+    accounts(
+        skip: Int = 0
+        first: Int = 100
+        orderBy: Account_orderBy
+        orderDirection: OrderDirection
+        where: Account_filter
+
+        """
+        The block at which the query should be executed. Can either be an `{ number:
+        Int }` containing the block number or a `{ hash: Bytes }` value containing a
+        block hash. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+    ): [Account!]!
+
+    """Access to subgraph metadata"""
+    _meta(block: Block_height): _Meta_
+}
+
+type Wearable {
+    id: ID!
+    owner: Account!
+    representationId: String!
+    collection: String!
+    name: String!
+    description: String!
+    category: WearableCategory!
+    rarity: WearableRarity!
+    bodyShapes: [WearableBodyShape!]
+    nft: NFT
+}
+
+input Wearable_filter {
+    id: ID
+    id_not: ID
+    id_gt: ID
+    id_lt: ID
+    id_gte: ID
+    id_lte: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    owner: String
+    owner_not: String
+    owner_gt: String
+    owner_lt: String
+    owner_gte: String
+    owner_lte: String
+    owner_in: [String!]
+    owner_not_in: [String!]
+    owner_contains: String
+    owner_not_contains: String
+    owner_starts_with: String
+    owner_not_starts_with: String
+    owner_ends_with: String
+    owner_not_ends_with: String
+    representationId: String
+    representationId_not: String
+    representationId_gt: String
+    representationId_lt: String
+    representationId_gte: String
+    representationId_lte: String
+    representationId_in: [String!]
+    representationId_not_in: [String!]
+    representationId_contains: String
+    representationId_not_contains: String
+    representationId_starts_with: String
+    representationId_not_starts_with: String
+    representationId_ends_with: String
+    representationId_not_ends_with: String
+    collection: String
+    collection_not: String
+    collection_gt: String
+    collection_lt: String
+    collection_gte: String
+    collection_lte: String
+    collection_in: [String!]
+    collection_not_in: [String!]
+    collection_contains: String
+    collection_not_contains: String
+    collection_starts_with: String
+    collection_not_starts_with: String
+    collection_ends_with: String
+    collection_not_ends_with: String
+    name: String
+    name_not: String
+    name_gt: String
+    name_lt: String
+    name_gte: String
+    name_lte: String
+    name_in: [String!]
+    name_not_in: [String!]
+    name_contains: String
+    name_not_contains: String
+    name_starts_with: String
+    name_not_starts_with: String
+    name_ends_with: String
+    name_not_ends_with: String
+    description: String
+    description_not: String
+    description_gt: String
+    description_lt: String
+    description_gte: String
+    description_lte: String
+    description_in: [String!]
+    description_not_in: [String!]
+    description_contains: String
+    description_not_contains: String
+    description_starts_with: String
+    description_not_starts_with: String
+    description_ends_with: String
+    description_not_ends_with: String
+    category: WearableCategory
+    category_not: WearableCategory
+    rarity: WearableRarity
+    rarity_not: WearableRarity
+    bodyShapes: [WearableBodyShape!]
+    bodyShapes_not: [WearableBodyShape!]
+    bodyShapes_contains: [WearableBodyShape!]
+    bodyShapes_not_contains: [WearableBodyShape!]
+}
+
+enum Wearable_orderBy {
+    id
+    owner
+    representationId
+    collection
+    name
+    description
+    category
+    rarity
+    bodyShapes
+    nft
+}
+
+enum WearableBodyShape {
+    BaseFemale
+    BaseMale
+}
+
+enum WearableCategory {
+    eyebrows
+    eyes
+    facial_hair
+    hair
+    mouth
+    upper_body
+    lower_body
+    feet
+    earring
+    eyewear
+    hat
+    helmet
+    mask
+    tiara
+    top_head
+}
+
+enum WearableRarity {
+    common
+    uncommon
+    rare
+    epic
+    legendary
+    mythic
+    unique
+}
+
